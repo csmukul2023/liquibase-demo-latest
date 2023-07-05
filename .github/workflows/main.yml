@@ -1,4 +1,4 @@
-name: Build and Deploy Container Image to Azure Container Apps
+name: Build a Docker image and Push it to ACR
 
 on: [push]
 
@@ -7,15 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
     - uses: azure/docker-login@v1
       with:
-        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+        login-server: finderwiredev.azurecr.io
+        username: finderwiredev
+        password: yW9LL03jqtW4BgIexeXnLQJXskDfyzZP/Pp04QQ3sf+ACRBb5non
     - run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/springboot-liquibase-demo:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/springboot-liquibase-demo:${{ github.sha }}
+        docker build . -t finderwiredev.azurecr.io/springboot-liquibase-demo:${{ github.sha }}
+        docker push finderwiredev.azurecr.io/springboot-liquibase-demo:${{ github.sha }}
