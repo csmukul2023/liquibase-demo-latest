@@ -1,45 +1,33 @@
-# The name of the deployment
-name: Trigger auto deployment for containerapps
+name: Build and Deploy Container Image to Azure Container Apps
 
-# When this action will be executed
 on:
-  # Automatically trigger it when detected changes in repo
   push:
-    # Branched to look out for changes on
-    branches: 
-      [ main ]
+    paths:
+      - 'src/*'
+  workflow_dispatch:
 
-  # Allow manually trigger of the jobs
-  workflow_dispatch:      
+defaults:
+  run:
+    working-directory: ./src/BookStore
 
 jobs:
-  # Job run image.
-    build:
-      runs-on: ubuntu-latest
+  build-container-image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@main
 
-   # Steps that need to happen in this job run.
-      steps:
-        # Check out the code
-        - name: Check out code
-          uses: actions/checkout@v2
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-        # Log in to Azure CLI
-        - name: Log in to Azure
-          uses: azure/login@v1
-          with:
-      # Azure CLI credentials
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-        # Build and deploy the container app
-        - name: Build and deploy Container App
-          uses: azure/container-apps-deploy-action@v0
-          with:
-            appSourcePath: ${{ github.workspace }}
-            acrName: <Container-Registery-Name>
-            acrUsername: ${{ secrets.REGISTRY_USERNAME }}
-            acrPassword: ${{ secrets.REGISTRY_PASSWORD }}
-            containerAppName: <Container-App-Name>
-            containerAppEnvironment: <Container-App-Environment-Name>
-            resourceGroup: <Container-App-Resource-Group>
-            imageToBuild: <Container-Registry>/<Image-Name>:<Tag e.g. ${{ github.sha }}>
-            dockerfilePath: /Path/to/Dockerfile
+    - name: 'Build and Push Image to ACR'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/springboot-liquibase-demo:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/springboot-liquibase-demo:${{ github.sha }}
