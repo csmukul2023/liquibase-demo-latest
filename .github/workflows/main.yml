@@ -11,7 +11,7 @@ jobs:
       with:
         login-server: finderwiredev.azurecr.io
         username: finderwiredev
-        password: yW9LL03jqtW4BgIexeXnLQJXskDfyzZP/Pp04QQ3sf+ACRBb5non
+        password: TSL5KfpcvsGnLBNVECcGlMVJ2JUtBb2ou1+R122eVV+ACRAkCilv
     - run: |
         docker build . -t finderwiredev.azurecr.io/springboot-liquibase-demo:${{ github.sha }}
         docker push finderwiredev.azurecr.io/springboot-liquibase-demo:${{ github.sha }}
