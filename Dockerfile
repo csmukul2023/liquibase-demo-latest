@@ -6,5 +6,5 @@ RUN mvn clean package
 FROM openjdk:11-jre-slim
 ARG JAR_NAME="liquibase-springboot"
 WORKDIR /usr/src/app
-COPY --from=build /usr/src/app/target/${JAR_NAME}.jar ./app.jar
+COPY --from=build /app .
 CMD ["java", "-jar", "./app.jar"]
