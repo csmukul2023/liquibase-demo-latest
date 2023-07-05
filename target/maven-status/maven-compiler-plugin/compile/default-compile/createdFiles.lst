@@ -1,0 +1,11 @@
+com/dbapresents/datingplatform/breed/BreedRepository.class
+com/dbapresents/datingplatform/search/ProfileDto.class
+com/dbapresents/datingplatform/Application.class
+com/dbapresents/datingplatform/profile/NewProfileRequest.class
+com/dbapresents/datingplatform/search/SearchProfilesController.class
+com/dbapresents/datingplatform/profile/ProfileService.class
+com/dbapresents/datingplatform/profile/ProfileController.class
+com/dbapresents/datingplatform/profile/ProfileRepository.class
+com/dbapresents/datingplatform/profile/Profile.class
+com/dbapresents/datingplatform/breed/Breed.class
+com/dbapresents/datingplatform/breed/BreedController.class

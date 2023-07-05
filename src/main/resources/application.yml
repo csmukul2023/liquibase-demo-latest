@@ -1,0 +1,16 @@
+spring:
+    datasource:
+        password: Tesla@2051
+        url: jdbc:postgresql://finderwire-postgres.postgres.database.azure.com:5432/liquibasedb
+        username: finderwiredb
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: none
+        show-sql: true
+    liquibase:
+       change-log: classpath:db-changelog.xml
+       enabled: true
+    sql:
+      init:
+        mode: always
