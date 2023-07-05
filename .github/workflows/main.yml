@@ -1,14 +1,6 @@
 name: Build and Deploy Container Image to Azure Container Apps
 
-on:
-  push:
-    paths:
-      - 'src/*'
-  workflow_dispatch:
-
-defaults:
-  run:
-    working-directory: ./src/BookStore
+on: [push]
 
 jobs:
   build-container-image:
